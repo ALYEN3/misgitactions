@@ -1,17 +1,42 @@
+# Define el nombre del flujo de trabajo, que se muestra en la interfaz de usuario de GitHub.
 name: GitHub Actions Practica
+
+# Especifica los eventos que activarán este flujo de trabajo.
+# En este caso, se ejecuta cada vez que hay un 'push' (envío de código) al repositorio.
 on: [push]
 
+# Define los trabajos (jobs) que componen el flujo de trabajo.
 jobs:
+  # Define un trabajo llamado 'Explorando-GitHub-Actions'.
   Explorando-GitHub-Actions:
+    # Especifica el entorno en el que se ejecutará el trabajo. 
+    # 'ubuntu-latest' significa la versión más reciente de Ubuntu Linux hospedada por GitHub.
     runs-on: ubuntu-latest
+
+    # Define los pasos (steps) que se ejecutarán dentro del trabajo.
     steps:
-      - run: echo "El flujo de trabajo ha sido ejecutado en el evento: ${{ github.event_name }}"
-      - run: echo "El trabajo se esta ejecutando en un servidor ${{ runner.os }} hospedado en GitHub"
-      - run: echo "El nombre de la rama es: ${{ github.ref }} y tu repositorio es: ${{ github.repository }}."
+      # Primer paso: un comando 'run' que imprime información sobre el evento que activó el flujo de trabajo.
+      - run: echo El flujo de trabajo ha sido ejecutado en el evento: ${{ github.event_name }}
+      
+      # Segundo paso: imprime el sistema operativo del runner.
+      - run: echo El trabajo se esta ejecutando en un servidor ${{ runner.os }} hospedado en GitHub
+      
+      # Tercer paso: imprime el nombre de la rama y el nombre del repositorio.
+      - run: echo El nombre de la rama es: ${{ github.ref }} y tu repositorio es: ${{ github.repository }}.
+
+      # Cuarto paso: utiliza una acción predefinida ('actions/checkout@v4') para descargar el código del repositorio en el runner.
       - name: Verifica el código del repositorio
         uses: actions/checkout@v4
-      - run: echo "El repositorio: ${{ github.repository }} ha sido clonado al runner."
-      - run: echo "El flujo de trabajo esta listo para verificar el código en el runner."
+
+      # Quinto paso: confirma que el repositorio ha sido clonado.
+      - run: echo El repositorio: ${{ github.repository }} ha sido clonado al runner.
+
+      # Sexto paso: indica que el flujo de trabajo está listo para verificar el código.
+      - run: echo El flujo de trabajo esta listo para verificar el código en el runner.
+
+      # Séptimo paso: ejecuta el comando 'ls -la' (listar archivos y directorios con detalles) en el directorio de trabajo del repositorio.
       - name: Listar archivos en el repositorio
         run: ls -la ${{ github.workspace }}
-      - run: echo "El estado del trabajo es: ${{ job.status }}."
+
+      # Octavo paso: imprime el estado final del trabajo (por ejemplo, 'success', 'failure').
+      - run: echo El estado del trabajo es: ${{ job.status }}.
